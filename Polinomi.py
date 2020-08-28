@@ -104,6 +104,7 @@ class polinomio:
             i += 1
         return p
 
+    
     def __truediv__(self, y):
     # if isinstance(self, list) == True:
     #     self.c.append(self[0].coefficienti)
@@ -122,17 +123,17 @@ class polinomio:
         s = self.grado
         v = y.grado
         grado_polinomio_risultante = s-v
-        #output = ""
+        output = ""
+#         if s == 0:
+#             return polinomio(self.c)
         if s < v:
-            print(polinomio(self.c), "+ (", self,")/(", polinomio(y),")" )
-            # output += str()  # capisce che questo è un polinomio???
-            # output += "+"
-            # output += "("+str(self.coefficienti)+")"
-            # output += "/"
-            # output += str(polinomio(y))  # capisce che questo è un polinomio???
-            # return output
-        elif s == 0:
-            return polinomio(self.c)
+            #print(polinomio(self.c), "+ (", self,")/(", y,")" )
+            output += str(polinomio(self.c))  # capisce che questo è un polinomio???
+            if polinomio(self.c).grado != 0:
+                output += "+"
+            output += "("+ str(self) +")/("
+            output += str(y) + ")"
+            return output
         else:
             d[1].append(grado_polinomio_risultante)
             d[0].append(self.coefficienti[0]/y.coefficienti[0])
@@ -149,7 +150,7 @@ class polinomio:
                     g.coefficienti.append(0)
                     e += 1
             # print(g)
-            f = self-g
+            f = self - g
             i = 0
             while i < len(f.coefficienti):
                 if f.coefficienti[0] == 0:
@@ -158,7 +159,8 @@ class polinomio:
             if (f.grado - y.grado) == 0 and (len(f.coefficienti)-len(self.c)) > 1:
                 self.c.append(0)
             # ??? e mo? __truediv__ prende 2 argomenti, ma io ne voglio 3
-            f / y
+            f/y
+            #return f / y
             #return  list(q, q/y)
 
     def __eq__(self, y):
@@ -170,7 +172,18 @@ class polinomio:
             return True
         else:
             return False
-        
+    def __ne__(self, y):
+        inequality = 0
+        if len(self.coefficienti) != len(y.coefficienti):
+            return True
+        else:
+            for i in range(len(self.coefficienti)):
+                if self.coefficienti[i] != y.coefficienti[i]:
+                    inequality += 1
+            if inequality == len(self.coefficienti):
+                return True
+            else:
+                return False
 
 
 
@@ -180,12 +193,12 @@ x = [1,0,1]
 y = [1,0,1]
 c = polinomio(x)
 d = polinomio(y)
-print(c == d)  
-# x = [1,0,2,0,1]
-# y = [1,0,1]
-# c = polinomio(x)
-# d = polinomio(y)
-# print(c / d)
+#print(c == d)  
+x = [1,0,2,0,1]
+y = [1,0,1]
+c = polinomio(x)
+d = polinomio(y)
+print(c / d)
 
 # print(c*d)
 # print(c.grado)
