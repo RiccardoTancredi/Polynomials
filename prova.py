@@ -4,7 +4,6 @@ class polinomio:
         self.coefficienti = coefficienti
         self.grado = 0 if len(self.coefficienti) == 0 else len(self.coefficienti) - 1
         self.c = []
-
     # scrittura del polinomio:
     def __str__(self):
         output = ""
@@ -105,9 +104,9 @@ class polinomio:
         return p
 
     def __truediv__(self, y):
-    # if isinstance(self, list) == True:
-    #     self.c.append(self[0].coefficienti)
-    #     self = self[0]
+        # if isinstance(self, list) == True:
+        #     self.c.append(self[0].coefficienti)
+        #     self = self[0]
         i, j = 0, 0
         while i < len(self.coefficienti):
             if self.coefficienti[0] == 0:
@@ -161,37 +160,19 @@ class polinomio:
             f / y
             #return  list(q, q/y)
 
-    def __eq__(self, y):
-        equality = 0
-        for i in range(len(self.coefficienti)):
-            if self.coefficienti[i] == y.coefficienti[i]:
-                equality += 1
-        if equality == len(self.coefficienti):
-            return True
-        else:
-            return False
-        
 
-
-
-x = [1, 1, 2, 1, 1]
-y = [1, 1, 2, 1, 1]
-x = [1,0,1]
-y = [1,0,1]
-c = polinomio(x)
-d = polinomio(y)
-print(c == d)  
-# x = [1,0,2,0,1]
+# x = [1, 1, 2, 1, 1]
+# y = [1, 1, 2, 1, 1]
+# x = [1,0,1]
 # y = [1,0,1]
 # c = polinomio(x)
 # d = polinomio(y)
-# print(c / d)
-
+# #print(c == d) #ToDo 
 # print(c*d)
 # print(c.grado)
 # print(c**2)
-# x = [1]
-# y = [1, 0, 1]
-# # x = [1,0,2,0,1]
-# # y = [1,0,1]
-# f = polinomio.rapporto(x, y)
+x = [1,0,2,0,1]
+y = [1,0,1]
+c = polinomio(x)
+d = polinomio(y)
+print(c / d)
