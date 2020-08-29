@@ -4,6 +4,11 @@ class polinomio:
         self.coefficienti = coefficienti
         self.grado = 0 if len(self.coefficienti) == 0 else len(self.coefficienti) - 1
         self.c = []
+        i = 0
+        while i < len(self.coefficienti):
+            if self.coefficienti[0] == 0:
+                self.coefficienti.pop(0)
+            i += 1
 
     # scrittura del polinomio:
     def __str__(self):
@@ -11,32 +16,30 @@ class polinomio:
         for i in range(0, len(self.coefficienti)):
             # and x[grado_polinomio]!=0):
             if (((self.coefficienti[i] == 1 or self.coefficienti[i] == 1.0) and self.grado-i == 1)):
-                output += "x"
+                output += "x "
             if self.grado-i == 1 and (self.coefficienti[i] != 0 and self.coefficienti[i] != 1 and self.coefficienti[i] != -1 and self.coefficienti[i] != 1.0 and self.coefficienti[i] != -1.0):
-                output += "{}x".format(self.coefficienti[i])
+                output += "{}x ".format(self.coefficienti[i])
             if self.coefficienti[i] == 0:
                 pass
                 # continue
             if self.grado-i != 0 and self.grado-i != 1 and (self.coefficienti[i] != 0 and self.coefficienti[i] != 1 and self.coefficienti[i] != -1 and self.coefficienti[i] != 1.0 and self.coefficienti[i] != -1.0):
-                output += "{}x^{}".format(
+                output += "{}x^{} ".format(
                     self.coefficienti[i], self.grado-i)
                 # continue
                 #print(x[i], "$x^", grado_polinomio-i, "$ + ")
             if (self.coefficienti[i] == 1 or self.coefficienti[i] == 1.0) and self.grado-i != 1 and self.grado-i != 0:
-                output += "x^{}".format(self.grado-i)
+                output += "x^{} ".format(self.grado-i)
                 # continue
             elif (self.coefficienti[i] == -1 or self.coefficienti[i] == -1.0) and self.grado-i != 1 and self.grado-i != 0:
-                output += "-x^{}".format(self.grado-i)
+                output += "- x^{} ".format(self.grado-i)
                 # continue
             elif self.coefficienti[i] != 0 and self.grado-i == 0:
-                output += "{}".format(self.coefficienti[i])
+                output += "{} ".format(self.coefficienti[i])
             # and x[grado_polinomio]!=0):
             if ((self.coefficienti[i] == -1 or self.coefficienti[i] == -1.0) and self.grado-i == 1):
-                output += "-x"
-            if self.grado-i == 1 and (self.coefficienti[i] != 0 and (self.coefficienti[i] != -1 or self.coefficienti[i] != -1.0) and (self.coefficienti[i] != 1 or self.coefficienti[i] != 1.0)):
-                output += "{}x".format(self.coefficienti[i])
-            if i != self.grado and self.coefficienti[i+1] != 0:
-                output += " + "
+                output += "- x "
+            if (i != self.grado and self.grado-i != 0) and self.coefficienti[i+1] > 0:
+                output += "+ "
                 continue
         return output
 
@@ -69,8 +72,8 @@ class polinomio:
         c = []
         for i in y.coefficienti:
             c.append(-i)
-        f = self.coefficienti + c
-        return polinomio(f)
+        f = self + polinomio(c)
+        return f
 
     def __mul__(self, y):
         grado_prodotto = self.grado + y.grado
@@ -109,32 +112,22 @@ class polinomio:
     # if isinstance(self, list) == True:
     #     self.c.append(self[0].coefficienti)
     #     self = self[0]
-        i, j = 0, 0
-        while i < len(self.coefficienti):
-            if self.coefficienti[0] == 0:
-                self.coefficienti.pop(0)
-            i += 1
-        while j < len(y.coefficienti):
-            if y.coefficienti[0] == 0:
-                y.coefficienti.pop(0)
-            j += 1
+        # i, j = 0, 0
+        # while i < len(self.coefficienti):
+        #     if self.coefficienti[0] == 0:
+        #         self.coefficienti.pop(0)
+        #     i += 1
+        # while j < len(y.coefficienti):
+        #     if y.coefficienti[0] == 0:
+        #         y.coefficienti.pop(0)
+        #     j += 1
 
         d = [[], []]
         s = self.grado
         v = y.grado
         grado_polinomio_risultante = s-v
         output = ""
-#         if s == 0:
-#             return polinomio(self.c)
-        if s < v:
-            #print(polinomio(self.c), "+ (", self,")/(", y,")" )
-            output += str(polinomio(self.c))  # capisce che questo è un polinomio???
-            if polinomio(self.c).grado != 0:
-                output += "+"
-            output += "("+ str(self) +")/("
-            output += str(y) + ")"
-            return output
-        else:
+        if grado_polinomio_risultante > 0:
             d[1].append(grado_polinomio_risultante)
             d[0].append(self.coefficienti[0]/y.coefficienti[0])
             for i in range(0, grado_polinomio_risultante):
@@ -143,25 +136,62 @@ class polinomio:
             #g = polinomio.prodotto(d[0], y)
             a = polinomio(d[0])
             g = a*y
-            if len(g.coefficienti) != len(self.coefficienti):
-                e = 0
-                # for e in range(0, len(self.coefficienti)-len(g.coefficienti)):
-                while e < len(self.coefficienti)-len(g.coefficienti):
-                    g.coefficienti.append(0)
-                    e += 1
+            # if len(g.coefficienti) != len(self.coefficienti):
+            #     e = 0
+            #     # for e in range(0, len(self.coefficienti)-len(g.coefficienti)):
+            #     while e < len(self.coefficienti)-len(g.coefficienti):
+            #         g.coefficienti.append(0)
+            #         e += 1
             # print(g)
             f = self - g
-            i = 0
-            while i < len(f.coefficienti):
-                if f.coefficienti[0] == 0:
-                    f.coefficienti.pop(0)
-                i += 1
+            # i = 0
+            # while i < len(f.coefficienti):
+            #     if f.coefficienti[0] == 0:
+            #         f.coefficienti.pop(0)
+            #     i += 1
             if (f.grado - y.grado) == 0 and (len(f.coefficienti)-len(self.c)) > 1:
                 self.c.append(0)
+            if (f.grado-y.grado) < 0 and f.grado != 0:
+                j = 0
+                while j < y.grado-f.grado:
+                    self.c.append(0)
             # ??? e mo? __truediv__ prende 2 argomenti, ma io ne voglio 3
-            f/y
-            #return f / y
-            #return  list(q, q/y)
+            return f/y
+        elif grado_polinomio_risultante == 0:
+            d[1].append(grado_polinomio_risultante)
+            d[0].append(self.coefficienti[0]/y.coefficienti[0])
+            self.c.append(d[0][0])
+            #g = polinomio.prodotto(d[0], y)
+            a = polinomio(d[0])
+            g = a*y
+            # if len(g.coefficienti) != len(self.coefficienti):
+            #     e = 0
+            #     # for e in range(0, len(self.coefficienti)-len(g.coefficienti)):
+            #     while e < len(self.coefficienti)-len(g.coefficienti):
+            #         g.coefficienti.append(0)
+            #         e += 1
+            # print(g)
+            f = self - g
+            if f.grado == 0:
+                return polinomio(self.c)
+            elif f.grado > 0:
+                return f/y
+            else:
+                raise Exception(
+                f"How could f.grado be negative?")
+
+        elif grado_polinomio_risultante < 0:
+            #print(polinomio(self.c), "+ (", self,")/(", y,")" )
+            output += str(polinomio(self.c))  # capisce che questo è un polinomio???
+            if polinomio(self.c).grado != 0:
+                output += "+"
+            output += "("+ str(self) +")/("
+            output += str(y) + ")"
+            return output
+        
+        elif s == 0:
+            return polinomio(self.c)
+        
 
     def __eq__(self, y):
         equality = 0
@@ -187,19 +217,28 @@ class polinomio:
 
 
 
-x = [1, 1, 2, 1, 1]
-y = [1, 1, 2, 1, 1]
-x = [1,0,1]
-y = [1,0,1]
-c = polinomio(x)
-d = polinomio(y)
-#print(c == d)  
+# x = [1, 1, 2, 1, 1]
+# y = [1, 1, 2, 1, 1]
+# x = [1,0,1]
+# y = [1,0,1]
+# c = polinomio(x)
+# d = polinomio(y)
+# #print(c == d)  
 x = [1,0,2,0,1]
 y = [1,0,1]
 c = polinomio(x)
 d = polinomio(y)
 print(c / d)
-
+# x =  [1,1,1]
+# y = [1,0]
+# c = polinomio(x)
+# d = polinomio(y)
+# g = c*d
+# print(g)
+# t = [1,1,0,1]
+# f = polinomio(t)
+# print(f)
+# print((f-g).coefficienti)
 # print(c*d)
 # print(c.grado)
 # print(c**2)
