@@ -150,20 +150,36 @@ class polinomio:
             g = a*y
             f = self - g
             if f.grado == 0 and (f.coefficienti == [] or f.coefficienti[0] == 0):
-                return polinomio(c)
+                d = list(c)
+                k = 0
+                while k < len(c):
+                    c.pop(0)
+                    k += 1
+                return polinomio(d)
             elif f.grado >= 0:
                 self = f
                 return f.__truediv__(y, c)
         elif grado_polinomio_risultante < 0:
-            output += str(polinomio(c))
-            if polinomio(c).grado != 0:
+            d = list(c)
+            if polinomio(d).grado != 0:
+                output += str(polinomio(d))
+            if polinomio(d).grado != 0:
                 output += "+"
             output += "(" + str(self) + ")/("
             output += str(y) + ")"
+            k = 0
+            while k < len(c):
+                c.pop(0)
+                k += 1
             return output
 
         elif s == 0:
-            return polinomio(c)
+            d = list(c)
+            k = 0
+            while k < len(c):
+                c.pop(0)
+                k += 1
+            return polinomio(d)
 
     def __eq__(self, y):
         equality = 0
@@ -215,15 +231,15 @@ c = polinomio(x)
 d = polinomio(y)
 g = c*d
 print(g)
-# x = [1]
-# y = [1,1]
-# c = polinomio(x)
-# d = polinomio(y)
-# g = c/d
-# print(g)
-# x = [3,3,3]
-# y = [3]
-# c = polinomio(x)
-# d = polinomio(y)
-# g = c/d
-# print(g)
+x = [1]
+y = [1,1]
+c = polinomio(x)
+d = polinomio(y)
+g = c/d
+print(g)
+x = [3,3,3]
+y = [3]
+c = polinomio(x)
+d = polinomio(y)
+g = c/d
+print(g)
